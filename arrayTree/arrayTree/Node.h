@@ -14,7 +14,7 @@ public:
 	Node();
 	~Node();
 	T getDato();
-	bool existe();
+	bool getExistence();
 	void setExistence();
 	void setDato(T dato);
 };
@@ -46,10 +46,12 @@ T Node<T>::getDato()
 }
 
 template<class T>
-bool Node<T>::existe()
+bool Node<T>::getExistence()
 {
 	return exists;
 }
+
+
 
 template<class T>
 void Node<T>::setDato(T dato)
