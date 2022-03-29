@@ -2,13 +2,13 @@
 #include <string>
 #include "Node.h"
 
-#define tam 20
+#define tam 30000
 
 template<class T>
 class Arbol
 {
 private:
-	Node<T> arr[tam] = { NULL };
+	Node<T> arr[tam];
 public:
 	Arbol();
 	~Arbol();
@@ -20,6 +20,12 @@ public:
 	void recorrerInOrder(int pos); //debe recibir 1 la primera vez
 	void recorrerPostOrder(int pos);//debe recibir 1 la primera vez
 	void recorrerPreOrder(int pos); //debe recibir 1 la primera vez
+
+	T getMenor(int posRaiz);
+	T buscar(T dato , int raiz);
+
+	int contarHojas(int raiz);
+
 };
 
 template<class T>
@@ -44,26 +50,21 @@ inline bool Arbol<T>::insert(T dato, int posRaiz)
 	bool res = false;
 	if (arr[posRaiz].getExistence() == false) {
 		arr[posRaiz].setDato(dato);
-		arr[posRaiz].setExistence();
 		res = true;
 	}
 	else {
-		if ((posRaiz * 2) + 1 < tam) {
-			if (dato < arr[posRaiz].getDato()) {
-				insert(dato, (posRaiz * 2));
-				arr[posRaiz * 2].setExistence();
-				posRaiz = posRaiz * 2;
-				res = true;
-			}
-			else {
-				insert(dato, ((posRaiz * 2) + 1));
-				arr[(posRaiz * 2) + 1].setExistence();
-				posRaiz = (posRaiz * 2) + 1;
-				res = true;
+		if (((posRaiz*2)+1) < tam)
+		{
+			if (dato < arr[posRaiz].getDato())
+				res=insert(dato, posRaiz * 2);
+			else
+			if (dato > arr[posRaiz].getDato())
+			{
+				res=insert(dato, ((posRaiz * 2) + 1));
+
 			}
 		}
 	}
-
 	return res;
 }
 
@@ -129,16 +130,16 @@ void Arbol<T>::recorrerInOrder(int pos)
 	//int pos = 1;
 	if (arr[pos].getExistence() == false)
 	{
-		//cout << "empty" << endl;
 		return;
 	}
 	else
+	if (((pos*2)+1) < tam)
 	{
 		recorrerInOrder(pos * 2);
-		cout << (arr[pos].getDato()) << " ";
+		cout <<arr[pos].getDato()<< " ";
 		recorrerInOrder((pos * 2) + 1);
 	}
-	cout << endl;
+
 }
 
 
@@ -149,13 +150,14 @@ void Arbol<T>::recorrerPostOrder(int pos) //debe recibir 1 la primera vez
 	int res=0;
 	if (arr[pos].getExistence() == false)
 	{
-		//cout << "empty" << endl;
+		return;
 	}
 	else
 	{
 		recorrerPostOrder(pos * 2);
 		recorrerPostOrder((pos * 2) + 1);
 		cout << (arr[pos].getDato()) << " ";
+
 	}
 	cout << endl;
 }
@@ -166,11 +168,9 @@ template<class T>
 void Arbol<T>::recorrerPreOrder(int pos)
 {
 	//int pos = 1;
-	int res=0;
 	if (arr[pos].getExistence() == false)
 	{
-	//	cout << "empty" << endl;
-
+	return;
 	}
 	else
 	{
@@ -181,5 +181,50 @@ void Arbol<T>::recorrerPreOrder(int pos)
 	cout << endl;
 }
 
+template <class T>
+T Arbol<T>::buscar(T dato, int raiz) {
+while (arr[raiz].getExistence() != false)
+{
+	if (dato < arr[raiz].getDato())
+	{
+	raiz = raiz * 2;
+	
+	}
+	if (dato > arr[raiz].getDato()) 
+	{
+	raiz = (raiz * 2) + 1;
 
+	}
+	else{return arr[raiz].getDato();}
+}
+return -1;
+}
 
+template <class T>
+T Arbol<T>::getMenor(int raiz)
+{
+	if (arr[raiz].getDato() == false) {return 0;}
+	else
+	{
+		T menor = arr[1].getDato();
+		while (arr[raiz * 2].getExistence() != false) 
+		{
+			raiz = raiz * 2;
+		}
+		menor = arr[raiz].getDato();
+		return menor;
+	}
+}
+
+template <class T>
+int Arbol<T>::contarHojas(int raiz)
+{
+
+	if(arr[raiz].getExistence()==false)    
+        return 0; //vacio
+    if(arr[raiz*2].getExistence()==false && arr[(raiz*2) + 1].getExistence()==false)
+        return 1;   // solo hay 1 nodo     
+    else
+        return contarHojas(raiz*2)+contarHojas(((raiz*2) + 1));
+
+}

@@ -10,7 +10,7 @@ private:
 	T dato;
 	bool exists;
 public:
-	Node(T dato);
+	//Node(T dato);
 	Node();
 	~Node();
 	T getDato();
@@ -19,12 +19,7 @@ public:
 	void setDato(T dato);
 };
 
-template<class T>
-Node<T>::Node(T dato)
-{
-	this->dato = dato;
-	exists = false;
-}
+
 
 template<class T>
 Node<T>::Node()
@@ -57,12 +52,13 @@ template<class T>
 void Node<T>::setDato(T dato)
 {
 	this->dato = dato;
+	exists=true;
 }
 
 template<class T>
 void Node<T>::setExistence()
 {
-	exists = true;
+	//exists = true;
 }
 
 
