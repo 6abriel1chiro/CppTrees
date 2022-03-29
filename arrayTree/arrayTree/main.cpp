@@ -1,90 +1,86 @@
 
 #include "Tree.h"
+#include <fstream>
+
+
+void readFromFile(Arbol<int>& myTree)
+{
+    ifstream file;
+    int num;
+    int padre;
+
+    file.open("file.txt");
+
+    if (!file)
+        cout << "No se puede abrir";
+    else
+        while (!file.eof() && file >> num >> padre)
+        {
+            myTree.insert(num, padre);
+        }
+    file.close();
+}
 
 int testMenu()
 {
-    int dato;
     
     Arbol<int> myTree;
     int opcion;
     do
     {
         cout << "MENU" << endl;
-        cout << "1--Insertar en arbol vacio---" << endl;
-        cout << "2--Insertar en arbol con elementos---" << endl;
-        cout << "3--Mostrar arbol inorder--" << endl;
-        cout << "4--Mostrar arbol preorder--" << endl;
-        cout << "5--Buscar en arbol--" << endl;
-        cout << "6. Eliminar de arbol" << endl;
+        cout << "1--Insertar nodos---" << endl;
+        cout << "2--Mostrar arbol inorder---" << endl;
+        cout << "3--Mostrar arbol preorder--" << endl;
+        cout << "4-- --" << endl;
+        cout << "5--obtener altura--" << endl;
+        cout << "6. obtener total" << endl;
         cout << "7. Leer de archivo" << endl;
         cout << "8-Salir--" << endl;
         cin >> opcion;
         system("cls");
         if (opcion == 1)
         {
-            int cant,padre,dato;
+            int dato, cant;
+
             cout << "cuantos nodos va a insertar: "; cin >> cant;
-            for (int i = 0; i < cant; i++)
-            {
-                if (i==0)
-                {
-                    cout << " nodo dato: "; cin >> dato;
-                    myTree.insertar(dato, NULL);
-
-                }
-                else
-                {
-                    cout << "nodo dato: "; cin >> dato;
-                    cout << "nodo padre: "; cin >> padre;
-                    myTree.insertar(dato, padre);
-
-                }
-               
-
+            for (int i = 0; i < cant; i++) {
+                cout << "nodo dato: "; cin >> dato;
+                // cout << "nodo padre: "; cin >> padre;
+                myTree.insert(dato, 1);
             }
-       
-                
-
-  
         }
+
+        
         if (opcion == 2)
         {
-            int padre, dato,cant;
+            myTree.recorrerInOrder(1);
 
-            cout << "cuantos nodos va a insertar: "; cin >> cant;
-            for (int i = 0; i < cant; i++){
-            cout << "nodo dato: "; cin >> dato;
-            cout << "nodo padre: "; cin >> padre;
-            myTree.insertar(dato, padre);
-            }
         }
         if (opcion == 3)
         {
-            myTree.recorrerInOrder(1);
+            myTree.recorrerPreOrder(1);
+
         }
         if (opcion == 4)
         {
-            myTree.recorrerPreOrder(1);
-
+            cout << " . " << endl;
     
         }
         if (opcion == 5)
         {
-            int found;
-            cout << "dato a Buscar: "; cin >> dato;
-            found = false;
-            cout << "resultado : " << found << endl;
+            int h = myTree.calcularAltura(1);
+            cout << "altura " << h << endl;
         }
         if (opcion == 6)
         {
-            cout << "dato a eliminar: "; cin >> dato;
-            //myTree.deleteNode(dato);
-            cout << "eliminado: " << endl;
+            int t = myTree.contar();
+            cout << "total Nodos " << t << endl;
 
         }
         if (opcion == 7)
         {
-           // readFromFile(myTree);
+           readFromFile(myTree);
         }
 
     } while (opcion != 8);

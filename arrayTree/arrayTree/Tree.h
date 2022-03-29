@@ -12,9 +12,8 @@ private:
 public:
 	Arbol();
 	~Arbol();
-	void insertar(T dato, T padre);
+	bool insert(T dato, int posRaiz);
 
-	bool insercionRecursiva(T elem, T padre, int posRaiz);
 	int contar();
 	int cuentaRecursiva(int pos);
 	int calcularAltura(int pos); //debe recibir 1 la primera vez
@@ -35,54 +34,37 @@ Arbol<T>::~Arbol()
 
 }
 
+
+
+
+
 template<class T>
-bool Arbol<T>::insercionRecursiva(T elem, T padre, int posRaiz)
+inline bool Arbol<T>::insert(T dato, int posRaiz)
 {
 	bool res = false;
-	if (arr[posRaiz].getExistence() == false)
-	{
-		arr[posRaiz].setDato(elem);
+	if (arr[posRaiz].getExistence() == false) {
+		arr[posRaiz].setDato(dato);
 		arr[posRaiz].setExistence();
 		res = true;
 	}
-	else
-	{
-		if (arr[posRaiz].getDato() == padre)
-		{
-			if (arr[posRaiz * 2].getExistence() == false)
-			{
-				arr[posRaiz * 2].setDato(elem);
+	else {
+		if ((posRaiz * 2) + 1 < tam) {
+			if (dato < arr[posRaiz].getDato()) {
+				insert(dato, (posRaiz * 2));
 				arr[posRaiz * 2].setExistence();
+				posRaiz = posRaiz * 2;
 				res = true;
 			}
-			else
-			{
-				if (arr[(posRaiz * 2) + 1].getExistence() == false)
-				{
-					arr[(posRaiz * 2) + 1].setDato(elem);
-					arr[(posRaiz * 2) + 1].setExistence();
-					res = true;
-				}
-			}
-		}
-		else
-		{
-			res = insercionRecursiva(elem, padre, posRaiz * 2);
-			if (res == false)
-			{
-				res = insercionRecursiva(elem, padre, (posRaiz * 2) + 1);
+			else {
+				insert(dato, ((posRaiz * 2) + 1));
+				arr[(posRaiz * 2) + 1].setExistence();
+				posRaiz = (posRaiz * 2) + 1;
+				res = true;
 			}
 		}
 	}
-	return res;
-}
 
-template<class T>
-void Arbol<T>::insertar(T dato, T padre)
-{
-	int pos = 1;
-	bool resp;
-	resp = insercionRecursiva(dato, padre, pos);
+	return res;
 }
 
 template<class T>
