@@ -3,17 +3,4 @@ C:\Users\ichir\source\repos\Trees\CppTrees\listTree\listTree\listTree\Tree.h(271
 C:\Users\ichir\source\repos\Trees\CppTrees\listTree\listTree\listTree\Tree.h(268): message : while compiling class template member function 'int Tree<int>::Altura(void)'
 C:\Users\ichir\source\repos\Trees\CppTrees\listTree\listTree\listTree\main.cpp(94): message : see reference to function template instantiation 'int Tree<int>::Altura(void)' being compiled
 C:\Users\ichir\source\repos\Trees\CppTrees\listTree\listTree\listTree\main.cpp(17): message : see reference to class template instantiation 'Tree<int>' being compiled
-C:\Users\ichir\source\repos\Trees\CppTrees\listTree\listTree\listTree\Tree.h(345,27): warning C4390: ';': empty controlled statement found; is this the intent?
-C:\Users\ichir\source\repos\Trees\CppTrees\listTree\listTree\listTree\Tree.h(333): message : while compiling class template member function 'bool Tree<int>::eliminar(T,Node<T> *&)'
-          with
-          [
-              T=int
-          ]
-C:\Users\ichir\source\repos\Trees\CppTrees\listTree\listTree\listTree\Tree.h(327): message : see reference to function template instantiation 'bool Tree<int>::eliminar(T,Node<T> *&)' being compiled
-          with
-          [
-              T=int
-          ]
-C:\Users\ichir\source\repos\Trees\CppTrees\listTree\listTree\listTree\Tree.h(60): message : while compiling class template member function 'Tree<int>::Tree(void)'
-C:\Users\ichir\source\repos\Trees\CppTrees\listTree\listTree\listTree\main.cpp(26): message : see reference to function template instantiation 'Tree<int>::Tree(void)' being compiled
   listTree.vcxproj -> C:\Users\ichir\source\repos\Trees\CppTrees\listTree\listTree\x64\Debug\listTree.exe

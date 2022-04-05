@@ -39,7 +39,7 @@ int testMenu()
 		cout << "9. hallar menor" << endl;
 		cout << "10. hallar mayor " << endl;
 		cout << "11. eliminar " << endl;
-		cout << "12.  - " << endl;
+		cout << "12.  eliminar raiz " << endl;
         cout << "13-Salir--" << endl;
         cin >> opcion;
         system("cls");
@@ -128,7 +128,7 @@ int testMenu()
         }
         if (opcion == 12)
         {
-
+            myTree.eliminarRaiz();
         }
 
 

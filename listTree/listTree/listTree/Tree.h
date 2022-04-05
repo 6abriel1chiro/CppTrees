@@ -47,10 +47,10 @@ public:
 	void mostrarNivel(Node<T>* A, int num);
 	
 	bool eliminar(T elem);
-	bool eliminar(T elem, Node<T>*& A);
+	bool eliminar(T elem, Node<T> *&A);
 
-	void eliminarTree();
-	void eliminarTree(Node<T>* A);
+	void eliminarRaiz();
+	void eliminarRaiz(Node<T>* A);
 
 
 };
@@ -64,7 +64,7 @@ Tree<T>::Tree()
 template<class T>
 Tree<T>::~Tree()
 {
-	eliminarTree();
+	eliminarRaiz();
 	raiz = NULL;
 }
 
@@ -329,7 +329,7 @@ bool Tree<T>::eliminar(T elem)
 }
 
 template<class T>
-bool Tree<T>::eliminar(T elem, Node<T>*& A)
+bool Tree<T>::eliminar(T elem,Node<T> *&A)
 {
 	bool res = false;
 	if (A == NULL)
@@ -342,7 +342,7 @@ bool Tree<T>::eliminar(T elem, Node<T>*& A)
 		{
 			res = eliminar(elem, A->getIzquierda());
 		}
-		if (elem > A->getDato());
+		if (elem > A->getDato())
 		{
 			res = eliminar(elem, A->getDerecha());
 		}
@@ -355,26 +355,15 @@ bool Tree<T>::eliminar(T elem, Node<T>*& A)
 			}
 			else
 			{
-				int num, may, min;
+				int may, min;
 				if (A->getIzquierda() != NULL && A->getDerecha() != NULL)
 				{
-					num = rand() % 2;
-					if (num == 0)
-					{
-						may = A->getIzquierda()->getDato();
-						Mayor(A->getIzquierda(),may);
-						T elemento = may;
-						A->setDato(elemento);
-						res = eliminar(elemento, A->getIzquierda());
-					}
-					if (num == 1)
-					{
+
 						min = A->getDerecha()->getDato();
 						Menor(A->getDerecha(), min);
 						T elemento = min;
 						A->setDato(elemento);
 						res = eliminar(elemento, A->getDerecha());
-					}
 				}
 				else
 				{
@@ -402,12 +391,12 @@ bool Tree<T>::eliminar(T elem, Node<T>*& A)
 }
 
 template<class T>
-void Tree<T>::eliminarTree()
+void Tree<T>::eliminarRaiz()
 {
-	eliminarTree(raiz);
+	eliminarRaiz(raiz);
 }
 template<class T>
-void Tree<T>::eliminarTree(Node<T>* A)
+void Tree<T>::eliminarRaiz(Node<T>* A)
 {
 	if (A == NULL)
 	{
@@ -415,8 +404,8 @@ void Tree<T>::eliminarTree(Node<T>* A)
 	}
 	else
 	{
-		eliminarTree(A->getIzquierda());
-		eliminarTree(A->getDerecha());
+		eliminarRaiz(A->getIzquierda());
+		eliminarRaiz(A->getDerecha());
 		delete A;
 	}
 }

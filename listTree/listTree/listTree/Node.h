@@ -8,8 +8,8 @@ class Node
 {
 private:
 	T dato;
-	Node* siguiente;
-	Node* anterior;
+	Node* siguiente; //derecho
+	Node* anterior; //izquierdo
 public:
 	Node(T dato);
 	Node();
