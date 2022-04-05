@@ -22,7 +22,9 @@ public:
 	void Buscar(T elem, Node<T>* A,bool &encontrado);
 
 	int Menor();
-	void Menor(Node<T>* A, int &num);
+	void Menor(Node<T>* A, int &num);	
+	
+
 
 	int Mayor();
 	void Mayor(Node<T>* A, int& num);
@@ -47,11 +49,10 @@ public:
 	void mostrarNivel(Node<T>* A, int num);
 	
 	bool eliminar(T elem);
-	bool eliminar(T elem, Node<T> *&A);
+	bool eliminar(Node<T>*& raiz,T dato);
 
 	void eliminarRaiz();
-	void eliminarRaiz(Node<T>* A);
-
+	bool eliminarRaiz(Node<T>* A);
 
 };
 
@@ -192,6 +193,8 @@ int Tree<T>::Menor()
 	return num;
 }
 
+
+
 template<class T>
 void Tree<T>::Menor(Node<T>* A, int &num)
 {
@@ -324,67 +327,46 @@ template<class T>
 bool Tree<T>::eliminar(T elem)
 {
 	bool sol;
-	sol=eliminar(elem, raiz);
+	sol=eliminar(raiz, elem);
 	return sol;
 }
 
 template<class T>
-bool Tree<T>::eliminar(T elem,Node<T> *&A)
+bool Tree<T>::eliminar(Node<T>*& raiz, T dato)
 {
-	bool res = false;
-	if (A == NULL)
-	{
-		return res;
+	bool res = true;
+	if (raiz == NULL) {
+		res = false;
 	}
-	else
-	{
-		if (elem < A->getDato())
-		{
-			res = eliminar(elem, A->getIzquierda());
+	else if (raiz->getDato() == dato) {
+		if (raiz->getIzquierda() != NULL and raiz->getDerecha() != NULL) {
+			delete raiz;
 		}
-		if (elem > A->getDato())
-		{
-			res = eliminar(elem, A->getDerecha());
+		else {
+			if (raiz->getDerecha() != NULL) {
+				T men = raiz->getIzquierda()->getDato();
+				Menor(raiz->getIzquierda(), men);
+				men = raiz->getIzquierda()->getDato();
+				Menor(raiz->getIzquierda(), men);		
+				raiz->setDato(men);
+				eliminar(raiz->getDerecha(), men);
+			}
+			else {
+				T may;
+				may = raiz->getDerecha()->getDato();
+				Mayor(raiz->getDerecha(), may);
+				Mayor(raiz->getIzquierda(), may);
+				raiz->setDato(may);
+				eliminar(raiz->getIzquierda(), may);
+			}
 		}
-		if (elem == A->getDato())
-		{
-			res = true;
-			if (A->getIzquierda() == NULL && A->getDerecha() == NULL)
-			{
-				delete A;
-			}
-			else
-			{
-				int may, min;
-				if (A->getIzquierda() != NULL && A->getDerecha() != NULL)
-				{
-
-						min = A->getDerecha()->getDato();
-						Menor(A->getDerecha(), min);
-						T elemento = min;
-						A->setDato(elemento);
-						res = eliminar(elemento, A->getDerecha());
-				}
-				else
-				{
-					if (A->getIzquierda() == NULL && A->getDerecha() != NULL) //1 hijo der
-					{
-						may = A->getDerecha()->getDato();
-						Mayor(A->getDerecha(), may);
-						T elemento = may;
-						A->setDato(elemento);
-						res = eliminar(elemento, A->getDerecha());
-					}
-					else
-					{
-						min = A->getIzquierda()->getDato();
-						Menor(A->getIzquierda(), min);
-						T elemento = min;
-						A->setDato(elemento);
-						res = eliminar(elemento, A->getIzquierda());
-					}
-				}
-			}
+	}
+	else {
+		if (dato > raiz->getDato()) {
+			eliminar(raiz->getDerecha(), dato);
+		}
+		else {
+			eliminar(raiz->getIzquierda(), dato);
 		}
 	}
 	return res;
@@ -396,17 +378,33 @@ void Tree<T>::eliminarRaiz()
 	eliminarRaiz(raiz);
 }
 template<class T>
-void Tree<T>::eliminarRaiz(Node<T>* A)
+bool Tree<T>::eliminarRaiz(Node<T>* A)
 {
-	if (A == NULL)
-	{
-		return;
+	bool res = true;
+	if (raiz == NULL) {
+		res = false;
+		cout << "empty" << endl;
 	}
-	else
-	{
-		eliminarRaiz(A->getIzquierda());
-		eliminarRaiz(A->getDerecha());
-		delete A;
+	else {
+		if (raiz->getIzquierda() != NULL) {
+			T mayor = raiz->getIzquierda()->getDato();
+			Mayor(raiz->getIzquierda(),mayor);
+			raiz->setDato(mayor);
+			eliminar(raiz->getIzquierda(), mayor);
+		}
+		else {
+			if (raiz->getDerecha() != NULL) {
+				T menor = raiz->getDerecha()->getDato();
+				Menor(raiz->getDerecha(),menor);
+				raiz->setDato(menor);
+				eliminar(raiz->getDerecha(), menor);
+			}
+			else {
+				delete raiz;
+				raiz = NULL;
+			}
+		}
 	}
+	return res;
 }
 
