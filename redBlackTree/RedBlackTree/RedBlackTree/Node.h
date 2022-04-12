@@ -1,5 +1,9 @@
 #pragma once
 #include <iostream>
+#include <string>
+#include <fstream>
+
+
 using namespace std;
 
 template <class T>
@@ -10,6 +14,9 @@ private:
 	string Color;
 	Node<T>* izquierda;
 	Node<T>* derecha;
+	int counter;
+
+
 public:
 	Node();
 	~Node();
@@ -17,8 +24,12 @@ public:
 	Node<T>*& getDerecha();
 	T getDato();
 	string getColor();
-	void setColor(string palabra);
+	void setColor(string newColor);
 	void setDato(T dato);
+	void setCounter();
+	int getCounter();
+
+
 	void crearIzquierda(Node<T>* newizquierda);
 	void crearDerecha(Node<T>* newderecha);
 };
@@ -26,15 +37,17 @@ public:
 template<class T>
 Node<T>::Node()
 {
-	this->izquierda = NULL;
-	this->derecha = NULL;
-	this->Dato = NULL;
-	this->Color = "";
+	izquierda = NULL;
+	derecha = NULL;
+	Color = "";
+	counter = 0;
 }
 
 template<class T>
 Node<T>::~Node()
 {
+
+
 }
 
 template<class T>
@@ -62,15 +75,16 @@ string Node<T>::getColor()
 }
 
 template<class T>
-void Node<T>::setColor(string palabra)
+void Node<T>::setColor(string newColor)
 {
-	Color = palabra;
+	Color = newColor;
 }
 
 template<class T>
 void Node<T>::setDato(T dato)
 {
 	Dato = dato;
+	counter++;
 }
 
 template<class T>
@@ -84,4 +98,19 @@ void Node<T>::crearDerecha(Node<T>* newderecha)
 {
 	derecha = newderecha;
 }
+
+
+template<class T>
+void Node<T>::setCounter()
+{
+	counter++;
+}
+
+template<class T>
+int Node<T>::getCounter()
+{
+	return counter;
+}
+
+
 

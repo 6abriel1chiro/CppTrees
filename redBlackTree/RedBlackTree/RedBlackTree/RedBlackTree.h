@@ -14,6 +14,8 @@ public:
 	void Insertar(T elemento);
 	void Insertar(Node<T>*& A, T elem, bool& continuar, bool& paridad, bool& lado);
 
+	int countDuplicatesFromFile();
+
 	void mostrarInOrder();
 	void mostrarInOrder(Node<T>* A);
 
@@ -27,7 +29,12 @@ public:
 	void Contar(Node<T>* A, int& num);
 
 	int Altura();
-	T Buscar(T);
+	//T Buscar(T);
+	bool Buscar(T elem);
+	void Buscar(T elem, Node<T>* A,bool &encontrado);
+
+	void setRaiz(string color);
+
 	bool eliminar(T);
 
 	bool revisarRojoNegro();
@@ -36,10 +43,11 @@ public:
 	int ContarNegro();
 	void ContarNegro(Node<T>* A, int& num);
 
-	int AlturaNegra();
 	int AlturaNegra(Node<T>* A, int& tot);
-	int AlturaNegra2();
 	int AlturaNegra(Node<T>* A);
+
+
+	void destructor(Node<T>*& A);
 };
 
 template<class T>
@@ -51,7 +59,7 @@ RBtree<T>::RBtree()
 template<class T>
 RBtree<T>::~RBtree()
 {
-
+	//destructor(raiz);
 }
 
 template<class T>
@@ -189,6 +197,8 @@ void RBtree<T>::Insertar(Node<T>*& A, T elem, bool& conti, bool& pari, bool& lad
 				}
 			}
 		}
+		if (elem == A->getDato())
+				A->setCounter();
 	}
 }
 
@@ -223,7 +233,7 @@ void RBtree<T>::mostrarInOrder(Node<T>* A)
 	else
 	{
 		mostrarInOrder(A->getIzquierda());
-		cout << A->getDato() << ", " << A->getColor() <<endl;
+		cout << A->getDato() << " : " << A->getColor() << " ,counter: "<< A->getCounter()<<endl;
 		mostrarInOrder(A->getDerecha());
 	}
 }
@@ -239,7 +249,7 @@ void RBtree<T>::mostrarPostOrder(Node<T>* A)
 	{
 		mostrarPostOrder(A->getIzquierda());
 		mostrarPostOrder(A->getDerecha());
-		cout << A->getDato() << ", " << A->getColor() <<endl;
+		cout << A->getDato() << " : " << A->getColor() <<endl;
 	}
 }
 
@@ -252,7 +262,7 @@ void RBtree<T>::mostrarPreOrder(Node<T>* A)
 	}
 	else
 	{
-		cout << A->getDato() << ", " << A->getColor() <<endl;
+		cout << A->getDato() << " : " << A->getColor() <<endl;
 		mostrarPreOrder(A->getIzquierda());
 		mostrarPreOrder(A->getDerecha());
 	}
@@ -284,12 +294,13 @@ void RBtree<T>::Contar(Node<T>* A, int& num)
 template<class T>
 int RBtree<T>::Altura()
 {
+
 	int num = 0, tot = 0;
 	Contar(raiz, num);
 	tot = log(num) + 1;
 	return tot + 1;
 }
-
+/*
 template<class T>
 inline T RBtree<T>::Buscar(T)
 {
@@ -301,7 +312,7 @@ inline bool RBtree<T>::eliminar(T)
 {
 	return false;
 }
-
+*/
 template<class T>
 bool RBtree<T>::revisarRojoNegro()
 {
@@ -453,26 +464,59 @@ int RBtree<T>::AlturaNegra(Node<T>* A)
 	}
 }
 
+
+
+
 template<class T>
-int RBtree<T>::AlturaNegra()
+bool RBtree<T>::Buscar(T dato)
 {
-	/*int num = 0, tot = 0;
-	ContarNegro(raiz, num);
-	tot = log(num) + 1;
-	return tot + 1;*/
-	int num = 0;
-	AlturaNegra(raiz,num);
-	return num;
+	bool encontrado = false;
+	Buscar(dato, raiz,encontrado);
+	return encontrado;
 }
 
 template<class T>
-int RBtree<T>::AlturaNegra2()
+void  RBtree<T>::Buscar(T dato, Node<T>* A, bool &encontrado)
 {
-	/*int num = 0, tot = 0;
-	ContarNegro(raiz, num);
-	tot = log(num) + 1;
-	return tot + 1;*/
-	int num = 0;
-	num = AlturaNegra(raiz);
-	return num;
+	if (A == NULL)
+	{
+		return;
+	}
+	else
+	{
+		if (dato == A->getDato())
+		{
+			encontrado = true;
+			cout << A->getDato()<< " , "<<A->getCounter();
+		}
+		Buscar(dato,A->getIzquierda(),encontrado);
+		Buscar(dato, A->getDerecha(), encontrado);
+	}
 }
+
+
+template<class T>
+void  RBtree<T>::setRaiz(string color)
+{
+	raiz->setColor(color);
+
+}
+
+
+template<class T>
+void  RBtree<T>::destructor(Node<T>*& A)
+{
+	if (raiz != NULL)
+	{
+		destructor(A->getIzquierda());
+			delete A->getIzquierda();
+
+		destructor(A->getDerecha());
+			delete A->getDerecha();
+
+
+	}
+
+}
+
+

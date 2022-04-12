@@ -1,15 +1,35 @@
-// RedBlackTree.cpp : This file contains the 'main' function. Program execution begins and ends there.
 
 #include "RedBlackTree.h"
-#include <fstream>
+#include <chrono>
+#include <thread>
+#include <iterator>
+#include <set>
 
-
-void readFromFile(RBtree<int>& myTree)
+void readFromFile(set<string>& mySet)
 {
     ifstream file;
-    int num;
+    string word;
+	string myFile = "100anios.txt";
+    file.open(myFile);
 
-    file.open("10000_Numeros.txt");
+    if (!file)
+        cout << "No se puede abrir";
+    else
+        while (!file.eof() && file >> word)
+        {
+			//cout<<word<<endl;
+            mySet.insert(word);
+        }
+		cout<<" cargado . . . "<<endl;
+    file.close();
+}
+
+void readFromFile(RBtree<string>& myTree)
+{
+    ifstream file;
+    string num;
+
+    file.open("100anios.txt");
 
     if (!file)
         cout << "No se puede abrir";
@@ -22,10 +42,32 @@ void readFromFile(RBtree<int>& myTree)
     file.close();
 }
 
+
+void countDuplicatesFromFile(RBtree<string>& myTree)
+{
+    ifstream file;
+    string num;
+
+    file.open("100anios.txt");
+
+    if (!file)
+        cout << "No se puede abrir";
+    else
+        while (!file.eof() && file >> num)
+        {
+            myTree.Insertar(num);
+			myTree.setRaiz("Negro");
+        }
+    cout << " cargado . . . " << endl;
+    file.close();
+}
+
 int testMenu()
 {
+    
+    RBtree<string> myTree;
+	set<string > mySet;
 
-    RBtree<int> myTree;
     int opcion;
     do
     {
@@ -33,21 +75,23 @@ int testMenu()
         cout << "1--Insertar nodos---" << endl;
         cout << "2--Mostrar arbol inorder---" << endl;
         cout << "3--Mostrar arbol preorder--" << endl;
-        cout << "4--Mostrar arbol postorder--" << endl;
+		cout << "4--Mostrar arbol postorder--" << endl;
         cout << "5-- buscar " << endl;
         cout << "6--obtener altura--" << endl;
         cout << "7. contar nodos " << endl;
         cout << "8. Leer de archivo" << endl;
-        cout << "9. ver altura negra" << endl;
-        cout << "10. eliminar " << endl;
-        cout << "11. TBD " << endl;
-        cout << "12. TBD " << endl;
-        cout << "13-Salir--" << endl;
+		cout << "9. eliminar" << endl;
+		cout << "10.  medir tiempo arbol " << endl;
+		cout << "11. medir tiempo SET " << endl;
+		cout << "12.  mostar SET " << endl;
+		cout << "13.  contar repetidos en archivo " << endl;
+        cout << "14-Salir--" << endl;
         cin >> opcion;
         system("cls");
         if (opcion == 1)
         {
-            int dato, cant;
+            string dato;
+			int cant;
 
             cout << "cuantos nodos va a insertar: "; cin >> cant;
             for (int i = 0; i < cant; i++) {
@@ -56,7 +100,7 @@ int testMenu()
             }
         }
 
-
+        
         if (opcion == 2)
         {
             myTree.mostrarInOrder();
@@ -67,17 +111,16 @@ int testMenu()
             myTree.mostrarPreOrder();
 
         }
-        if (opcion == 4)
+		        if (opcion == 4)
         {
             myTree.mostrarPostOrder();
 
         }
         if (opcion == 5)
         {
-            int nodoBuscado = 0;
-            cout << "nodo a buscar: "; cin >> nodoBuscado;
-            nodoBuscado = myTree.Buscar(nodoBuscado);
-            if (nodoBuscado)
+			string nodoBuscado;
+            cout << "nodo a buscar: "; cin>>nodoBuscado;
+            if ( myTree.Buscar(nodoBuscado))
             {
                 cout << " :encontrado " << endl;
 
@@ -89,7 +132,7 @@ int testMenu()
             }
 
 
-
+    
         }
         if (opcion == 6)
         {
@@ -102,35 +145,59 @@ int testMenu()
             cout << "total Nodos " << t << endl;
 
         }
-        if (opcion == 8)
+		if (opcion == 8)
         {
-            readFromFile(myTree);
+			readFromFile(myTree);
 
         }
         if (opcion == 9)
         {
-            myTree.AlturaNegra();
+			  //          string  node;
+          //  cout << "nodo a eliminar : "; cin>>node;
+          //  myTree.eliminar(node);
         }
-        if (opcion == 10)
+		if (opcion == 10)
         {
-            int  node;
-            cout << "nodo a eliminar : "; cin >> node;
-            myTree.eliminar(node);
-        }
+			  auto start = std::chrono::high_resolution_clock::now();
+				readFromFile(myTree);
+			  auto end = std::chrono::high_resolution_clock::now();
+			  auto int_s = std::chrono::duration_cast<std::chrono::seconds>(end - start);
+			  cout << "tiempo de insertar en ABB  " << int_s.count() << " segundos . " <<endl;
 
+        }
+                
         if (opcion == 11)
         {
+			  auto start = std::chrono::high_resolution_clock::now();
+				readFromFile(mySet);
+			  auto end = std::chrono::high_resolution_clock::now();
+			  auto int_s = std::chrono::duration_cast<std::chrono::seconds>(end - start);
+			  cout << "tiempo de insertar en set " << int_s.count() << " seconds " << std::endl;
 
-            //
 
         }
         if (opcion == 12)
         {
-            //
+
+			set<string >::iterator itr;
+			int counter = 0;
+			cout << "\nThe set s1 is : \n";
+			for (itr = mySet.begin(); itr != mySet.end(); itr++)
+			{
+				 cout << *itr << " ";
+				 counter++;
+			}
+		cout << endl;
+		cout<<"elementos : "<<counter<<endl;
+            
+        }
+		        if (opcion == 13)
+        {
+			countDuplicatesFromFile(myTree);
         }
 
 
-    } while (opcion != 13);
+    } while (opcion != 14);
     return 0;
 }
 
