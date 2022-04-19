@@ -1,5 +1,7 @@
 #pragma once
 #include <iostream>
+#include <string>
+
 using namespace std;
 
 template <class T>
@@ -8,19 +10,28 @@ class Node
 private:
 	T Dato;
 	int factor;
+	int counter;
 	Node<T>* izquierda;
 	Node<T>* derecha;
 public:
 	Node();
 	~Node();
+
 	Node<T>*& getIzquierda();
 	Node<T>*& getDerecha();
+
 	T getDato();
 	int getFactor();
+
 	void setFactor(int n);
 	void setDato(T dato);
+
 	void setIzquierda(Node<T>* newizquierda);
 	void setDerecha(Node<T>* newderecha);
+
+		int getCounter();
+
+	void setCounter();
 };
 
 template<class T>
@@ -29,6 +40,8 @@ Node<T>::Node()
 	this->izquierda = NULL;
 	this->derecha = NULL;
 	this->factor = 0;
+		this->counter = 0;
+
 }
 
 
@@ -72,6 +85,7 @@ template<class T>
 void Node<T>::setDato(T dato)
 {
 	Dato = dato;
+	counter=counter+1;
 }
 
 template<class T>
@@ -86,3 +100,15 @@ void Node<T>::setDerecha(Node<T>* newderecha)
 	derecha = newderecha;
 }
 
+
+template<class T>
+int Node<T>::getCounter()
+{
+	return counter;
+}
+
+template<class T>
+void Node<T>::setCounter()
+{
+	counter = counter+1;
+}
