@@ -1,5 +1,7 @@
-#include "AVLtree.h"
+#include "Tree.h"
 #include <set>
+#include <map>
+
 #include <iterator>
 #include <fstream>
 #include <chrono>
@@ -8,7 +10,7 @@ void readFromFile(set<string>& mySet)
 {
     ifstream file;
     string word;
-    string myFile = "10000_Numeros.txt";
+    string myFile = "100anios.txt";
     file.open(myFile);
 
     if (!file)
@@ -16,19 +18,43 @@ void readFromFile(set<string>& mySet)
     else
         while (!file.eof() && file >> word)
         {
-            //cout<<word<<endl;
+            cout<<word<<endl;
             mySet.insert(word);
         }
     cout << " cargado . . . " << endl;
     file.close();
 }
 
-void readFromFile(AVLtree<string>& myTree)
+void readFromFile(map<string,int>& myMap)
 {
     ifstream file;
     string num;
+		int i=0;
+    string myFile = "100anios.txt";
+    file.open(myFile);
 
-    file.open("100anios.txt");
+    if (!file)
+        cout << "No se puede abrir";
+    else
+        while (!file.eof() && file >> num)
+        {
+           // cout<<nim<<endl;
+
+		   myMap[num]++;
+
+		  
+        }
+    cout << " cargado . . . " << endl;
+    file.close();
+}
+
+
+void readThousandNumbers(Tree<int>& myTree)
+{
+    ifstream file;
+    int num;
+
+    file.open("10000_Numeros.txt");
 
     if (!file)
         cout << "No se puede abrir";
@@ -41,14 +67,41 @@ void readFromFile(AVLtree<string>& myTree)
     file.close();
 }
 
+void read100anios(Tree<string>& myTree)
+{
+    ifstream file;
+    string num;
+
+    file.open("100anios.txt");
+
+    if (!file)
+        cout << "No se puede abrir";
+    else
+        while (!file.eof() && file >> num)
+        {
+						            cout<<num<<endl;
+
+            myTree.insertar(num);
+
+        }
+    cout << " cargado . . . " << endl;
+    file.close();
+}
+
+
+
+
 
 
 
 int testMenu()
 {
 
-    AVLtree<string> myTree;
+    Tree<string> myTree;
+
     set<string > mySet;
+
+	map<string, int> myMap;
 
     int opcion;
     do
@@ -64,15 +117,16 @@ int testMenu()
         cout << "8. Leer de archivo" << endl;
         cout << "9. eliminar" << endl;
         cout << "10.  medir tiempo arbol " << endl;
-        cout << "11. medir tiempo SET " << endl;
-        cout << "12.  mostar SET " << endl;
-        cout << "13.   " << endl;
+        cout << "11. medir tiempo MAP " << endl;
+        cout << "12.  mostar MAP " << endl;
+        cout << "13.  " << endl;
         cout << "14-Salir--" << endl;
         cin >> opcion;
         system("cls");
         if (opcion == 1)
         {
-            string dato;
+           string dato;
+			//int dato;
             int cant;
 
             cout << "cuantos nodos va a insertar: "; cin >> cant;
@@ -100,7 +154,8 @@ int testMenu()
         }
         if (opcion == 5)
         {
-            string nodoBuscado;
+        //    int nodoBuscado;
+		string nodoBuscado;
             cout << "nodo a buscar: "; cin >> nodoBuscado;
             if (myTree.Buscar(nodoBuscado))
             {
@@ -129,7 +184,8 @@ int testMenu()
         }
         if (opcion == 8)
         {
-            readFromFile(myTree);
+           read100anios(myTree);
+			//readThousandNumbers(myTree);
 
         }
         if (opcion == 9)
@@ -139,7 +195,9 @@ int testMenu()
         if (opcion == 10)
         {
             auto start = std::chrono::high_resolution_clock::now();
-            readFromFile(myTree);
+            read100anios(myTree);
+			//readThousandNumbers(myTree);
+
             auto end = std::chrono::high_resolution_clock::now();
             auto int_s = std::chrono::duration_cast<std::chrono::seconds>(end - start);
             cout << "tiempo de insertar en AVL  " << int_s.count() << " segundos . " << endl;
@@ -149,31 +207,29 @@ int testMenu()
         if (opcion == 11)
         {
             auto start = std::chrono::high_resolution_clock::now();
-            readFromFile(mySet);
+            readFromFile(myMap);
             auto end = std::chrono::high_resolution_clock::now();
             auto int_s = std::chrono::duration_cast<std::chrono::seconds>(end - start);
-            cout << "tiempo de insertar en set " << int_s.count() << " seconds " << std::endl;
+            cout << "tiempo de insertar en MAP " << int_s.count() << " seconds " << std::endl;
 
 
         }
         if (opcion == 12)
         {
 
-            set<string >::iterator itr;
-            int counter = 0;
-            cout << "\nThe set s1 es : \n";
-            for (itr = mySet.begin(); itr != mySet.end(); itr++)
-            {
-                cout << *itr << " ";
-                counter++;
-            }
-            cout << endl;
-            cout << "elementos : " << counter << endl;
-
-        }
+ // printing map 
+    map<string, int>::iterator itr;
+    cout << "\tKEY\tELEMENT\n";
+    for (itr = myMap.begin(); itr != myMap.end(); ++itr) {
+        cout << '\t' << itr->first << '\t' << itr->second<< '\n';
+    }
+    cout << endl;
+    
+		}
         if (opcion == 13)
         {
-            //TBD
+		//	countDuplicatesFromFile();
+			
         }
 
 
