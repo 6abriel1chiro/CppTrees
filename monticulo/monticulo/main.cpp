@@ -53,10 +53,10 @@ int testMenu()
         cout << "1--Insertar nodos---" << endl;
         cout << "2--Mostrar monticulo---" << endl;
         cout << "3-- buscar " << endl;
-        cout << "4--obtener altura--" << endl;
-        cout << "5. contar nodos " << endl;
+        cout << "4--ver altura--" << endl;
+        cout << "5. ver cantidad de todos " << endl;
         cout << "6. Leer de archivo" << endl;
-        cout << "7. eliminar" << endl;
+        cout << "7. eliminar mayor" << endl;
         cout << "8.  medir tiempo arbol " << endl;
         cout << "9. medir tiempo MAP " << endl;
         cout << "10.  mostar MAP " << endl;
@@ -85,7 +85,7 @@ int testMenu()
         }
         if (opcion == 3)
         {
-            /*
+            
             int nodoBuscado;
             cout << "nodo a buscar: "; cin >> nodoBuscado;
             if (myTree.buscar(nodoBuscado))
@@ -95,22 +95,22 @@ int testMenu()
             }
             else
             {
-                cout << "nodo no encontrado: " << nodoBuscado << endl;
+                cout << "nodo no encontrado " << nodoBuscado << endl;
 
             }
 
 
-            */
+            
         }
         if (opcion == 4)
         {
-           // int h = myTree.getAltura();
-           // cout << "altura " << h << endl;
+           int h = myTree.getAltura();
+           cout << "altura " << h << endl;
         }
         if (opcion == 5)
         {
-           // int t = myTree.Contar();
-           // cout << "total Nodos " << t << endl;
+            int t = myTree.getTam();
+            cout << "total Nodos " << t << endl;
 
         }
         if (opcion == 6)

@@ -26,6 +26,15 @@ public:
 	T getMenor();
 
 	int getTam();
+
+	//int contar();
+
+	int getAltura(int posNodo);
+	int getAltura();
+
+
+	bool buscar(T elem);
+
 };
 
 template<class T>
@@ -163,5 +172,68 @@ template<class T>
 int Tree<T>::getTam()
 {
 	return last;
+}
+
+
+
+template<class T>
+inline int Tree<T>::getAltura(int posNodo)
+{
+	int posMayor = 0;
+	T aux;
+	int h = 0;
+	if (arr[posNodo * 2].getPresente() && arr[posNodo * (2 + 1)].getPresente())
+	{
+		h++;
+		if (arr[posNodo * 2].getElem() > arr[posNodo * (2 + 1)].getElem())
+			posMayor = posNodo * 2;
+		else
+			posMayor = posNodo * 2 + 1;
+
+		if (arr[posMayor].getElem() > arr[posNodo].getElem())
+		{
+			aux = arr[posMayor].getElem();
+			arr[posMayor].setElem(arr[posNodo].getElem());
+			arr[posNodo].setElem(aux);
+			getAltura(posMayor);
+		}
+	}
+	else
+	{
+		if (arr[posNodo * 2].getPresente()) {
+			h++;
+			if (arr[posNodo * 2].getElem() > arr[posNodo].getElem())
+			{
+				T aux = arr[posNodo].getElem();
+				arr[posNodo].setElem(arr[posNodo * 2].getElem());
+				arr[posNodo * 2].setElem(aux);
+				getAltura(posNodo * 2);
+			}
+		}
+	}
+	return h;
+}
+
+template<class T>
+inline int Tree<T>::getAltura()
+{
+	return getAltura(1);
+}
+
+
+template<class T>
+inline bool Tree<T>::buscar(T elem)
+{
+	bool found= false;
+	for (int i = 1; i <= last; i++)
+	{
+		if (elem == arr[i].getElem()) 
+		{
+			cout << arr[i].getElem() << " " ;
+			found = true;
+		}
+	}
+	
+	return found;
 }
 
