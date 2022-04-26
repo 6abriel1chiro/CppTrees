@@ -4,6 +4,8 @@
 #include <fstream>
 #include <chrono>
 #include <map>
+#include <iterator>
+#include <list>
 
 
 
@@ -21,7 +23,7 @@ public:
 	~Node();
 	T getElem();
 	bool getPresente();
-	void setPresente(bool palabra);
+	void setPresente(bool val);
 	void setElem(T Elem);
 
 };
@@ -29,13 +31,15 @@ public:
 template<class T>
 Node<T>::Node()
 {
-	this->elem = NULL;
+	//this->elem = NULL;
 	this->presente = false;
 }
 
 template<class T>
 Node<T>::~Node()
 {
+
+    
 }
 
 
@@ -53,9 +57,9 @@ bool Node<T>::getPresente()
 }
 
 template<class T>
-void Node<T>::setPresente(bool palabra)
+void Node<T>::setPresente(bool val)
 {
-	presente = palabra;
+	this->presente = val;
 }
 
 template<class T>
@@ -63,5 +67,3 @@ void Node<T>::setElem(T elem)
 {
 	this->elem = elem;
 }
-
-

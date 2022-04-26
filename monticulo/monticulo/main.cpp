@@ -1,4 +1,3 @@
-
 #include "Tree.h"
 
 void readFromFile(map<int, int>& myMap)
@@ -39,11 +38,23 @@ void readThousandNumbers(Tree<int>& myTree)
     cout << " cargado . . . " << endl;
     file.close();
 }
+
+void showlist(list<int> g)
+{
+    list<int>::iterator it;
+    for (it = g.begin(); it != g.end(); ++it)
+        cout << '\t' << *it<<" ";
+
+        cout<<endl;
+}
 int testMenu()
 {
 
     Tree<int> myTree;
     map<int, int> myMap;
+    list<int> myList;
+
+
 
 
     int opcion;
@@ -53,7 +64,7 @@ int testMenu()
         cout << "1--Insertar nodos---" << endl;
         cout << "2--Mostrar monticulo---" << endl;
         cout << "3-- buscar " << endl;
-        cout << "4--ver altura--" << endl;
+        cout << "4-- heapsort--" << endl;
         cout << "5. ver cantidad de todos " << endl;
         cout << "6. Leer de archivo" << endl;
         cout << "7. eliminar mayor" << endl;
@@ -104,8 +115,8 @@ int testMenu()
         }
         if (opcion == 4)
         {
-           int h = myTree.getAltura();
-           cout << "altura " << h << endl;
+           myList = myTree.heapSort();
+           showlist(myList);
         }
         if (opcion == 5)
         {
@@ -158,7 +169,8 @@ int testMenu()
         }
         if (opcion == 11)
         {
-            //	
+            //heap sort
+
 
         }
 
@@ -172,4 +184,3 @@ int main()
 
     testMenu();
 }
-

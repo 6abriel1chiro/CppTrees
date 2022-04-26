@@ -35,6 +35,9 @@ public:
 
 	bool buscar(T elem);
 
+    list<int> heapSort();
+
+
 };
 
 template<class T>
@@ -47,7 +50,11 @@ Tree<T>::Tree()
 template<class T>
 Tree<T>::~Tree()
 {
+ while (arr[1].getPresente() != false)
+    {
+        eliminarMayor();
 
+    }
 }
 
 
@@ -125,8 +132,12 @@ void Tree<T>::recorrerMonticulo()
 {
 	for (int i = 1; i <= last; i++)
 	{
-		cout << arr[i].getElem() << endl;
+	//	cout << arr[i].getElem() << " pos : "<<i<<endl;
+        		cout << arr[i].getElem()<<" ";
+
+
 	}
+    cout<<endl;
 }
 
 template<class T>
@@ -237,3 +248,18 @@ inline bool Tree<T>::buscar(T elem)
 	return found;
 }
 
+template<class T>
+list<int> Tree<T>::heapSort()
+{
+    list<int> mylist;
+    while (arr[1].getPresente() != false)
+    {
+        T mayor = arr[1].getElem();
+        mylist.push_back(mayor);
+        eliminarMayor();
+
+    }
+    
+    return mylist;
+
+}
